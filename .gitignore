@@ -22,6 +22,9 @@ build/
 # data files
 data/
 
+#Generated Output
+reports/
+
 # Temporary files
 report_template.html
 

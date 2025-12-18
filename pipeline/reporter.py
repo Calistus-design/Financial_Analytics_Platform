@@ -102,36 +102,3 @@ def generate_pdf_report(clean_records: List[dict]):
     report_path = os.path.join(REPORTS_DIR, report_filename)
     HTML(string=html_out).write_pdf(report_path, stylesheets=[css])
     print(f"Polished PDF report generated: {report_path}")
-
-# Test function remains the same for creating the template and running the report
-if __name__ == '__main__':
-    template_content = """
-    <!DOCTYPE html>
-    <html>
-    <head>
-        <title>Daily Stock Market Summary</title>
-    </head>
-    <body>
-        <h1>Daily Stock Market Summary: {{ metrics.latest_date }}</h1>
-        <h2>Key Metrics</h2>
-        <table>
-            <tr><th>Metric</th><th>Value</th></tr>
-            <tr><td>Symbols Tracked</td><td>{{ metrics.num_symbols }}</td></tr>
-            <tr><td>Total Volume</td><td>{{ metrics.total_volume }}</td></tr>
-            <tr><td>Top Gainer</td><td>{{ metrics.top_gainer_symbol }} ({{ metrics.top_gainer_pct }})</td></tr>
-            <tr><td>Top Loser</td><td>{{ metrics.top_loser_symbol }} ({{ metrics.top_loser_pct }})</td></tr>
-        </table>
-        <h2>Daily Performance Chart</h2>
-        <img src="{{ chart_path }}" alt="Daily Performance Chart">
-    </body>
-    </html>
-    """
-    with open(os.path.join(TEMPLATE_PATH, 'report_template.html'), 'w') as f:
-        f.write(template_content)
-    
-    sample_records = [
-        {'symbol': 'GOOG', 'date': '2024-01-01', 'open': 130.0, 'high': 132.5, 'low': 129.5, 'close': 132.0, 'volume': 100000},
-        {'symbol': 'AAPL', 'date': '2024-01-01', 'open': 170.0, 'high': 171.0, 'low': 169.0, 'close': 169.5, 'volume': 120000},
-        {'symbol': 'MSFT', 'date': '2024-01-01', 'open': 300.0, 'high': 305.0, 'low': 299.0, 'close': 304.5, 'volume': 80000},
-    ]
-    generate_pdf_report(sample_records)
