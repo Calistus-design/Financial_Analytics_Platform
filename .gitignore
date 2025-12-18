@@ -5,8 +5,7 @@
 __pycache__/ # it ignores compiled Python files
 *.pyc  # it ignores all Python bytecode files
 .venv/ # it ignores virtual environment directories
-venv/ # it ignores all directories inside venv
-
+venv/ 
 
 # Node
 node_modules/ # it ignores aall directories inside node_modules
@@ -19,3 +18,6 @@ build/
 .vscode/
 .idea/
 .DS_Store
+
+# data files
+data/
