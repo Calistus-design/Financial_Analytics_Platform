@@ -2,13 +2,13 @@
 # The __init__.py file is important. It tells Python that the pipeline directory should be treated as a "package" or "module,"
 # which allows us to import functions between these files cleanly.
 
-__pycache__/ # it ignores compiled Python files
-*.pyc  # it ignores all Python bytecode files
-.venv/ # it ignores virtual environment directories
+__pycache__/ 
+*.pyc  
+.venv/ 
 venv/ 
 
 # Node
-node_modules/ # it ignores aall directories inside node_modules
+node_modules/ 
 build/
 .pnp.*
 
@@ -21,3 +21,10 @@ build/
 
 # data files
 data/
+
+# Temporary files
+report_template.html
+
+
+
+# to test each file run python -m e.g., pipeline.reporter
