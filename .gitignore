@@ -1,4 +1,6 @@
 # Python 
+# The __init__.py file is important. It tells Python that the pipeline directory should be treated as a "package" or "module,"
+# which allows us to import functions between these files cleanly.
 
 __pycache__/ # it ignores compiled Python files
 *.pyc  # it ignores all Python bytecode files
@@ -13,7 +15,6 @@ build/
 
 # Secrets
 .env
-
 # Editor & OS specific
 .vscode/
 .idea/

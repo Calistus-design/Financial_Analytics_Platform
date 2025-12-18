@@ -11,7 +11,7 @@ from pydantic import BaseModel, Field, validator
 
 class StockDataPoint(BaseModel):
     """Represents a single day's stock data point."""
-    date: date
+    # i removed the date field
     open: float = Field(..., alias='1. open')
     high: float = Field(..., alias='2. high')
     low: float = Field(..., alias='3. low')
