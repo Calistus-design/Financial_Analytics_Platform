@@ -25,6 +25,7 @@ app = FastAPI(
 # Define the list of origins that are allowed to make requests to our API
 origins = [
     "http://localhost:3000", # The default port for React's development server
+    "http://127.0.0.1:3000",
     "http://localhost",
 ]
 
@@ -37,10 +38,17 @@ app.add_middleware(
 )
 
 # --- 2. DATABASE CONNECTION ---
-DB_PATH = os.path.join(os.path.dirname(__file__), '..', 'data', 'market_data.db')
+# Build an absolute path to the database file
+PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+DB_PATH = os.path.join(PROJECT_ROOT, 'data', 'market_data.db')
 DB_URI = f'sqlite:///{DB_PATH}'
-engine = create_engine(DB_URI, connect_args={"check_same_thread": False})
 
+# A quick check to make sure the file exists before we proceed
+if not os.path.exists(DB_PATH):
+    print(f"ERROR: Database file not found at {DB_PATH}")
+    # In a real app, you might raise an exception here
+    
+engine = create_engine(DB_URI, connect_args={"check_same_thread": False})
 
 # --- 3. API ENDPOINTS --- ... ---
 
@@ -57,14 +65,18 @@ def get_all_stocks():
     """
     # This SQL query finds the latest date for each symbol and joins it back
     # to get the full row of data for that latest date.
+    # This SQL query uses a window function, which is much more efficient.
     query = """
-    SELECT s1.*
-    FROM stock_data s1
-    INNER JOIN (
-        SELECT symbol, MAX(date) as max_date
+    WITH ranked_stocks AS (
+       SELECT
+            *,
+           ROW_NUMBER() OVER(PARTITION BY symbol ORDER BY date DESC) as rn
         FROM stock_data
-        GROUP BY symbol
-    ) s2 ON s1.symbol = s2.symbol AND s1.date = s2.max_date;
+    )
+    SELECT
+        id, symbol, date, open, high, low, close, volume
+    FROM ranked_stocks
+    WHERE rn = 1;
     """
     
     try:

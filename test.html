@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>API Test</title>
+</head>
+<body>
+    <h1>API Data Test</h1>
+    <p>Check the browser console (F12) for data.</p>
+    <pre id="output"></pre>
+
+    <script>
+        console.log("TEST SCRIPT: Running...");
+        fetch('http://127.0.0.1:8000/api/all-stocks')
+            .then(response => {
+                console.log("TEST SCRIPT: Received response from server.");
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log("TEST SCRIPT: Data is good!", data);
+                document.getElementById('output').textContent = JSON.stringify(data, null, 2);
+            })
+            .catch(error => {
+                console.error('TEST SCRIPT: Fetch error:', error);
+                document.getElementById('output').textContent = 'Error: ' + error.message;
+            });
+    </script>
+</body>
+</html>
