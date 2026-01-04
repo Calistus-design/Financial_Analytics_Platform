@@ -63,3 +63,26 @@ def get_all_stocks():
     except Exception as e:
         # A general catch-all for any other database errors
         raise HTTPException(status_code=500, detail=f"An error occurred: {e}")
+
+
+# Endpoint that can return the full 5,000+ data points for a single stock.
+@app.get("/api/stock-history/{symbol}", response_model=List[StockData])
+def get_stock_history(symbol: str):
+    """
+    Retrieves the full historical data for a given stock symbol.
+    The symbol is passed as a path parameter.
+    """
+    # Using a parameterized query to prevent SQL injection
+    query = text("SELECT * FROM stock_data WHERE symbol = :symbol ORDER BY date ASC")
+    
+    try:
+        with engine.connect() as connection:
+            result = connection.execute(query, {"symbol": symbol.upper()})
+            rows = result.mappings().all()
+
+        if not rows:
+            raise HTTPException(status_code=404, detail=f"No data found for symbol '{symbol}'.")
+
+        return rows
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"An error occurred: {e}")
