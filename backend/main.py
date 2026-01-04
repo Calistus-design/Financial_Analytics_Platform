@@ -9,6 +9,7 @@ from fastapi import FastAPI, HTTPException
 from sqlalchemy import create_engine, text
 from typing import List
 from .models import StockData, MarketOverview
+from fastapi.middleware.cors import CORSMiddleware
 
 # Import the Pydantic models we just created
 from .models import StockData
@@ -18,6 +19,21 @@ app = FastAPI(
     title="Financial Analytics API",
     description="An API for accessing processed stock market data.",
     version="1.0.0"
+)
+
+# --- ADD CORS MIDDLEWARE ---
+# Define the list of origins that are allowed to make requests to our API
+origins = [
+    "http://localhost:3000", # The default port for React's development server
+    "http://localhost",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,       # Allow requests from these specific origins
+    allow_credentials=True,      # Allow cookies (not used now, but good practice)
+    allow_methods=["*"],         # Allow all methods (GET, POST, etc.)
+    allow_headers=["*"],         # Allow all headers
 )
 
 # --- 2. DATABASE CONNECTION ---
