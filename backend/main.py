@@ -8,6 +8,7 @@ import os
 from fastapi import FastAPI, HTTPException
 from sqlalchemy import create_engine, text
 from typing import List
+from .models import StockData, MarketOverview
 
 # Import the Pydantic models we just created
 from .models import StockData
@@ -84,5 +85,49 @@ def get_stock_history(symbol: str):
             raise HTTPException(status_code=404, detail=f"No data found for symbol '{symbol}'.")
 
         return rows
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"An error occurred: {e}")
+
+# Endpoint that provides high-level summary KPIs
+@app.get("/api/market-overview", response_model=MarketOverview)
+def get_market_overview():
+    """
+    Retrieves high-level market KPIs for the most recent day of data.
+    Calculates total volume, and identifies the top gainer and loser.
+    """
+    # Query to find the absolute latest date available in the database
+    latest_date_query = "SELECT MAX(date) FROM stock_data"
+    
+    try:
+        with engine.connect() as connection:
+            latest_date_result = connection.execute(text(latest_date_query))
+            latest_date = latest_date_result.scalar_one_or_none()
+
+        if not latest_date:
+            raise HTTPException(status_code=404, detail="No data available to calculate overview.")
+
+        # Query to get all data for that latest date and calculate KPIs
+        overview_query = text("""
+            WITH latest_day_data AS (
+                SELECT
+                    *,
+                    ((close - open) / open) AS pct_change
+                FROM stock_data
+                WHERE date = :latest_date
+            )
+            SELECT
+                (SELECT SUM(volume) FROM latest_day_data) AS total_volume,
+                (SELECT symbol FROM latest_day_data ORDER BY pct_change DESC LIMIT 1) AS top_gainer_symbol,
+                (SELECT MAX(pct_change) FROM latest_day_data) AS top_gainer_change,
+                (SELECT symbol FROM latest_day_data ORDER BY pct_change ASC LIMIT 1) AS top_loser_symbol,
+                (SELECT MIN(pct_change) FROM latest_day_data) AS top_loser_change;
+        """)
+
+        with engine.connect() as connection:
+            result = connection.execute(overview_query, {"latest_date": latest_date})
+            overview_data = result.mappings().one() # .one() gets a single result
+
+        return overview_data
+
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"An error occurred: {e}")
