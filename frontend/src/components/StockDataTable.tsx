@@ -10,7 +10,7 @@ export const StockDataTable = ({ stocks, onRowClick }: StockDataTableProps) => {
   return (
     <div style={{ marginTop: '20px' }}>
       <h2>Market Overview</h2>
-      <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+      <table className="stock-table">
         <thead>
           <tr style={{ borderBottom: '2px solid black' }}>
             <th style={{ textAlign: 'left', padding: '8px' }}>Symbol</th>
