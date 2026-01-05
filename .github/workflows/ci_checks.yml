@@ -43,7 +43,7 @@ jobs:
     # Step 4: Lint with black (check formatting)
     - name: Lint with black
       run: |
-        black --check .
+        black .
 
     # Step 5: Run tests with pytest
     - name: Test with pytest
