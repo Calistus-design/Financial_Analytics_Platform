@@ -10,16 +10,17 @@ export const StockDataTable = ({ stocks, onRowClick }: StockDataTableProps) => {
   return (
     <div style={{ marginTop: '20px' }}>
       <h2>Market Overview</h2>
+      {/* We are back to using the 'stock-table' className from App.css */}
       <table className="stock-table">
         <thead>
-          <tr style={{ borderBottom: '2px solid black' }}>
-            <th style={{ textAlign: 'left', padding: '8px' }}>Symbol</th>
-            <th style={{ textAlign: 'left', padding: '8px' }}>Date</th>
-            <th style={{ textAlign: 'right', padding: '8px' }}>Open</th>
-            <th style={{ textAlign: 'right', padding: '8px' }}>High</th>
-            <th style={{ textAlign: 'right', padding: '8px' }}>Low</th>
-            <th style={{ textAlign: 'right', padding: '8px' }}>Close</th>
-            <th style={{ textAlign: 'right', padding: '8px' }}>Volume</th>
+          <tr>
+            <th>Symbol</th>
+            <th>Date</th>
+            <th style={{ textAlign: 'right' }}>Open</th>
+            <th style={{ textAlign: 'right' }}>High</th>
+            <th style={{ textAlign: 'right' }}>Low</th>
+            <th style={{ textAlign: 'right' }}>Close</th>
+            <th style={{ textAlign: 'right' }}>Volume</th>
           </tr>
         </thead>
         <tbody>
@@ -28,16 +29,14 @@ export const StockDataTable = ({ stocks, onRowClick }: StockDataTableProps) => {
               key={stock.symbol} 
               onClick={() => onRowClick(stock.symbol)}
               style={{ cursor: 'pointer' }}
-              onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#f0f0f0'}
-              onMouseOut={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
             >
-              <td style={{ padding: '8px' }}>{stock.symbol}</td>
-              <td style={{ padding: '8px' }}>{stock.date}</td>
-              <td style={{ textAlign: 'right', padding: '8px' }}>{stock.open.toFixed(2)}</td>
-              <td style={{ textAlign: 'right', padding: '8px' }}>{stock.high.toFixed(2)}</td>
-              <td style={{ textAlign: 'right', padding: '8px' }}>{stock.low.toFixed(2)}</td>
-              <td style={{ textAlign: 'right', padding: '8px' }}>{stock.close.toFixed(2)}</td>
-              <td style={{ textAlign: 'right', padding: '8px' }}>{stock.volume.toLocaleString()}</td>
+              <td>{stock.symbol}</td>
+              <td>{stock.date}</td>
+              <td style={{ textAlign: 'right' }}>{stock.open.toFixed(2)}</td>
+              <td style={{ textAlign: 'right' }}>{stock.high.toFixed(2)}</td>
+              <td style={{ textAlign: 'right' }}>{stock.low.toFixed(2)}</td>
+              <td style={{ textAlign: 'right' }}>{stock.close.toFixed(2)}</td>
+              <td style={{ textAlign: 'right' }}>{stock.volume.toLocaleString()}</td>
             </tr>
           ))}
         </tbody>
