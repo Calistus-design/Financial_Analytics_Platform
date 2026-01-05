@@ -1,0 +1,19 @@
+ <!DOCTYPE html>
+    <html>
+    <head>
+        <title>Daily Stock Market Summary</title>
+    </head>
+    <body>
+        <h1>Daily Stock Market Summary: {{ metrics.latest_date }}</h1>
+        <h2>Key Metrics</h2>
+        <table>
+            <tr><th>Metric</th><th>Value</th></tr>
+            <tr><td>Symbols Tracked</td><td>{{ metrics.num_symbols }}</td></tr>
+            <tr><td>Total Volume</td><td>{{ metrics.total_volume }}</td></tr>
+            <tr><td>Top Gainer</td><td>{{ metrics.top_gainer_symbol }} ({{ metrics.top_gainer_pct }})</td></tr>
+            <tr><td>Top Loser</td><td>{{ metrics.top_loser_symbol }} ({{ metrics.top_loser_pct }})</td></tr>
+        </table>
+        <h2>Daily Performance Chart</h2>
+        <img src="{{ chart_path }}" alt="Daily Performance Chart">
+    </body>
+    </html>
