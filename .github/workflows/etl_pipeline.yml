@@ -42,7 +42,7 @@ jobs:
       run: |
         git config --global user.name 'github-actions[bot]'
         git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-        git add reports/
-        # The following command will only commit if there are changes
+        git add -f reports/
+        # The following command will only commit if there are changes (added -f to force add it coz it is ignored (gitignore))
         git commit -m "docs(reports): Update daily summary report" || echo "No changes to commit"
         git push
