@@ -1,21 +1,14 @@
-import React, { useEffect } from 'react';
-import { useAppStore } from '../store/store';
-import { fetchAllStocks } from '../services/apiService';
+import React from 'react';
+import { StockData } from '../services/apiService';
 
-export const StockDataTable = () => {
-  const { allStocks, setAllStocks } = useAppStore();
+interface StockDataTableProps {
+  stocks: StockData[];
+  onRowClick: (symbol: string) => void;
+}
 
-  useEffect(() => {
-    const loadData = async () => {
-      const data = await fetchAllStocks();
-      setAllStocks(data);
-    };
-
-    loadData();
-  }, []); // The correct, simplest dependency array to run only once.
-
+export const StockDataTable = ({ stocks, onRowClick }: StockDataTableProps) => {
   return (
-    <div>
+    <div style={{ marginTop: '20px' }}>
       <h2>Market Overview</h2>
       <table style={{ width: '100%', borderCollapse: 'collapse' }}>
         <thead>
@@ -30,8 +23,14 @@ export const StockDataTable = () => {
           </tr>
         </thead>
         <tbody>
-          {allStocks.map((stock) => (
-            <tr key={stock.symbol} style={{ borderBottom: '1px solid #ccc' }}>
+          {stocks.map((stock) => (
+            <tr 
+              key={stock.symbol} 
+              onClick={() => onRowClick(stock.symbol)}
+              style={{ cursor: 'pointer' }}
+              onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#f0f0f0'}
+              onMouseOut={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
+            >
               <td style={{ padding: '8px' }}>{stock.symbol}</td>
               <td style={{ padding: '8px' }}>{stock.date}</td>
               <td style={{ textAlign: 'right', padding: '8px' }}>{stock.open.toFixed(2)}</td>
