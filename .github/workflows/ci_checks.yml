@@ -1,0 +1,51 @@
+# Name of the workflow as it will appear in the "Actions" tab on GitHub
+name: Code Quality Checks
+
+# Controls when the workflow will run
+on:
+  # Trigger the workflow on push events for the main branch
+  push:
+    branches: [ "main" ]
+  # Also trigger on pull request events targeted at the main branch
+  pull_request:
+    branches: [ "main" ]
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build-and-test"
+  build-and-test:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+    # We'll use a matrix strategy to test on multiple Python versions
+    strategy:
+      matrix:
+        python-version: ["3.9", "3.10", "3.11"]
+
+    # Steps represent a sequence of tasks that will be executed as part of the job..
+    steps:
+    # Step 1: Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+    - name: Check out code
+      uses: actions/checkout@v3
+
+    # Step 2: Set up the specific Python version for this job run
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    # Step 3: Install project dependencies
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install pytest black # Also install our dev dependencies
+
+    # Step 4: Lint with black (check formatting)
+    - name: Lint with black
+      run: |
+        black --check .
+
+    # Step 5: Run tests with pytest
+    - name: Test with pytest
+      run: |
+        python -m pytest
