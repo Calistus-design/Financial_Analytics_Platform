@@ -44,7 +44,8 @@ graph TD
 ## Dashboard Preview
 Below is a screenshot of the main application dashboard, showing the KPI cards, the market overview table, and the interactive historical charts for a selected stock.
 
-![Interactive Financial Analytics Dashboard](screenshots/dashboard-preview.png)
+<img width="846" height="727" alt="image" src="https://github.com/user-attachments/assets/7825f9ac-8562-4a44-9cbf-3908c1eba3d7" />
+
 
 ## Tech Stack
 
