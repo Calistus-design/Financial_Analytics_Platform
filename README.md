@@ -173,3 +173,52 @@ This platform provides a solid foundation for a comprehensive financial analytic
 *   **Enhanced Caching:** Introduce a caching layer (e.g., with Redis) for frequently accessed API endpoints to improve performance and reduce database load.
 *   **Advanced Visualizations:** Add more complex charts, such as candlestick charts for price action or moving average overlays.
 *   **Containerization:** Fully containerize the backend and frontend services using Docker and Docker Compose for streamlined deployment and environment consistency.
+
+## Repository Structure
+```
+.github/
+└── workflows/
+    ├── ci_checks.yml
+    ├── etl_pipeline.yml
+    └── test_trigger.yml
+backend/
+└── main.py
+└── models.py
+frontend/
+├── .gitignore
+├── package-lock.json
+├── package.json
+├── README.md
+├── tsconfig.json
+└── src/
+    ├── App.css
+    ├── App.tsx
+    ├── index.css
+    ├── index.tsx
+    ├── react-app-env.d.ts
+    ├── reportWebVitals.ts
+    ├── setupTests.ts
+    ├── components/
+    │   ├── HistoricalChart.tsx
+    │   ├── KpiCards.tsx
+    │   └── StockDataTable.tsx
+    └── services/
+        └── apiService.ts
+pipeline/
+├── api_client.py
+├── loader.py
+├── main.py
+├── models.py
+├── reporter.py
+├── report_template.html
+├── transformer.py
+└── tests/
+    └── test_transformer.py
+.gitignore
+reports/
+package-lock.json
+package.json
+README.md
+requirements.txt
+test.html
+```
