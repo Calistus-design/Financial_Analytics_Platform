@@ -14,14 +14,14 @@ This platform is composed of two main systems that work in concert: an offline E
 
 ```mermaid
 graph TD
-    A["External API<br>(Alpha Vantage)"] --> B{"GitHub Actions<br>(Scheduled Daily)"};
-    B -- Fetches --> A;
-    B -- "Cleans & Transforms" --> C["SQLite Database<br>(Data Warehouse)"];
-    B -- "Generates" --> D[("PDF Report<br>(Pushed to Git)")];
-    C --> E["FastAPI Backend<br>(REST API)"];
-    E --> F[("React Frontend<br>(Interactive Dashboard)")];
-    F -- "Requests Data" --> E;
-end
+    A["External API<br>(Alpha Vantage)"] --> B{"GitHub Actions<br>(Scheduled Daily)"}
+    B -- Fetches --> A
+    B -- "Cleans & Transforms" --> C["SQLite Database<br>(Data Warehouse)"]
+    B -- "Generates" --> D[("PDF Report<br>(Pushed to Git)")]
+    C --> E["FastAPI Backend<br>(REST API)"]
+    E --> F[("React Frontend<br>(Interactive Dashboard)")]
+    F -- "Requests Data" --> E
+
 ```
 
 ## Key Features
